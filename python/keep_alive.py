@@ -20,10 +20,10 @@ def basic_login_nosys(username, password):
     """
     url = "http://10.0.0.11:8090/login.xml"
 
-    response = copy.deepcopy(loginpu.login(url, username, password)[:])
+    response = copy.deepcopy(loginpu.login(url, username, password))
     return [response]
 
-def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=5): # 5 is suggested
+def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=2): # 5 is suggested
     """
     Runs script forever to keep wifi connected logged in
     """
@@ -42,7 +42,7 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=5): # 5 is su
         print("Attempting To Sign In " + username )
         response = copy.deepcopy(basic_login_nosys(username, password))
         print("looged in as " + username)
-        print("------\nStatus: " + response[1]+ "\n------")        
+        # print("------\nStatus: " + response[3]+ "\n------")        
     sleep(interval)
         
 
