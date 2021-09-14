@@ -19,6 +19,6 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     "Connection": "close",
     }
     body = 'mode=191&username='+ username +'&password='+ password +'&a=1630404423764&producttype=0'
-    data = bytearray(body, 'utf-8')
+    data = bytearray(body, 'utf-8') # server takes header body data in binary
     r = requests.post(url, data=data, headers=headers, verify=False)
     return [(r.status_code == 200), r.text]
