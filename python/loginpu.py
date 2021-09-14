@@ -19,6 +19,10 @@ import requests
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 ###################################################################
 
+"""
+essentials to login to parul wifi
+Copyright (C) 2021 SaicharanKandukrui <saicharankandukuri1x1@gmail.com>
+"""
 
 def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=None):
     """

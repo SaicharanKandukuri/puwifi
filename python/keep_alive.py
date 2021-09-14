@@ -5,6 +5,12 @@ from signal import signal, SIGINT
 from sys import exit
 from time import sleep
 
+"""
+Accept user input and pass it to the loginpu module
+    script <username> <password>
+        url is set to deafault value http://10.0.0.11:8090/login.xml        
+"""
+
 def basic_login_nosys(username, password):
     x=0
     """
@@ -46,6 +52,6 @@ if __name__ == '__main__':
     # Tell Python to run the handler() function when SIGINT is recieved
     signal(SIGINT, handler)
 
-    print('Running. Press CTRL-C to exit.')
+    print('Running '+sys.argv[0]+'. Press CTRL-C to exit.')
     while True:
         keep_alive(sys.argv[1], sys.argv[2])
