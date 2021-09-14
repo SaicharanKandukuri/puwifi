@@ -16,7 +16,6 @@ headers = {
 }
 body = 'mode=191&username=200303124264&password=bf%4066&a=1630404423764&producttype=0'
 data = bytearray(body, 'utf-8')
-r = requests.post(url, data=data, headers=headers)
+r = requests.post(url, data=data, headers=headers, verify=False)
 print(r.status_code)
-
 print(r.text)
