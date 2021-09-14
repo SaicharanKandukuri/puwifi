@@ -1,4 +1,5 @@
-import requests
+import urllib.request as urllib2 #python3
+import sys, urllib, requests
 
 ################################################################
 # Basic usage of loginpu.py as module
@@ -48,19 +49,10 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     return [(r.status_code == 200), r.text, r.status_code]
 
 def ping_host():
-    try:
-        requests.get('http://10.0.0.11:8090/').status_code
-        return True
-    except OSError:
-        return 2
-    else:
-        return False
-
+    return((requests.get('http://10.0.0.11:8090/').status_code) == 200)
 def ping_internet():
     try:
-        requests.get('http://www.google.com/').status_code
-        return 0
-    except OSError:
-        return 2
-    else:
-        return False
+        req = urllib2.Request("https://www.google.com", headers={'User-Agent':'Mozilla/5.0'})
+        urllib2.urlopen(req)
+    except urllib.error.URLError:
+        print("GG")
