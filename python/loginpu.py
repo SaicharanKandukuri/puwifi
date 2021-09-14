@@ -1,4 +1,4 @@
-import urllib.request as urllib2 #python3
+ #python3
 import sys, urllib, requests
 
 ################################################################
@@ -48,11 +48,12 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     r = requests.post(url, data=data, headers=headers, verify=False)
     return [(r.status_code == 200), r.text, r.status_code]
 
-def ping_host():
-    return((requests.get('http://10.0.0.11:8090/').status_code) == 200)
-def ping_internet():
-    try:
-        req = urllib2.Request("https://www.google.com", headers={'User-Agent':'Mozilla/5.0'})
-        urllib2.urlopen(req)
-    except urllib.error.URLError:
-        print("GG")
+# def ping_host():
+#     try:
+#         req = urllib2.Request("http://10.0.0.11:8090/", headers={'User-Agent':'Mozilla/5.0'})
+#         urllib2.urlopen(req)
+#         return True
+#     except urllib.error.URLError:
+#         return False
+
+# def ping_internet():
