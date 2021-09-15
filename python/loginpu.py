@@ -48,12 +48,3 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     r = requests.post(url, data=data, headers=headers, verify=False)
     return [(r.status_code == 200), r.text, r.status_code]
 
-# def ping_host():
-#     try:
-#         req = urllib2.Request("http://10.0.0.11:8090/", headers={'User-Agent':'Mozilla/5.0'})
-#         urllib2.urlopen(req)
-#         return True
-#     except urllib.error.URLError:
-#         return False
-
-# def ping_internet():

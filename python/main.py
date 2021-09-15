@@ -35,4 +35,3 @@ if ( response[0] == True ):
 else:
     print("Failed to login")
     print("Response: "+ str(response))
-
