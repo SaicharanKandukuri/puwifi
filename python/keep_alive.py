@@ -40,9 +40,9 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=2): # 5 is su
         print("Internet Connection Avalible")
     except urllib.error.URLError:
         print("Attempting To Sign In " + username )
-        response = copy.deepcopy(basic_login_nosys(username, password))
+        # response = copy.deepcopy(basic_login_nosys(username, password))
         print("looged in as " + username)
-        print("------\nStatus: " + response[2]+ "\n------")        
+        # print("------\nStatus: " + response[2]+ "\n------")        
     sleep(interval)
         
 
