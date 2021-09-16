@@ -42,7 +42,7 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=2): # 5 is su
         print("Attempting To Sign In " + username )
         response = copy.deepcopy(basic_login_nosys(username, password))
         print("looged in as " + username)
-        # print("------\nStatus: " + response[3]+ "\n------")        
+        print("------\nStatus: " + response[2]+ "\n------")        
     sleep(interval)
         
 
