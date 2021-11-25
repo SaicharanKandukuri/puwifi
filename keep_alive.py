@@ -70,12 +70,19 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     except urllib.error.URLError:
         log.warning("Could not see \"PARUL_WIFI\"")
         log.warning("Try Connecting to wifi?")
+    except URLError as error:
+        if isinstance(error.reason, timeout):
+            log.warning('connection timed out, low bandwidth?')
+        else:
+            log.error('some other error happened')
+
     try:
         req2 = urllib2.Request("https://www.google.com",
                                headers={'User-Agent': 'Mozilla/5.0'})
         urllib2.urlopen(req2)
         log.info("Internet Connection Avalible")
     except urllib.error.URLError:
+        log.warning("Internet Acees Failed ?")
         log.info("Attempting To Sign In " + username)
         log.info("looged in as " + username)
         log.info(basic_login_nosys(username, password))
