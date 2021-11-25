@@ -1,7 +1,7 @@
-import loginpu
+import modules.loginpu as loginpu
 import sys
 import copy
-from loginpu import ping_host as ph
+from modules.loginpu import ping_host as ph
 
 ################################################################
 # Basic usage of loginpu.py as module

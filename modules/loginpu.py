@@ -1,6 +1,3 @@
-# python3
-import sys
-import urllib
 import requests
 
 ################################################################
@@ -29,9 +26,7 @@ Copyright (C) 2021 SaicharanKandukrui <saicharankandukuri1x1@gmail.com>
 
 
 def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=None):
-    """
-    Sends Login requests to Parul University Login Page
-    """
+
     url = str(login_url)
 
     headers = {

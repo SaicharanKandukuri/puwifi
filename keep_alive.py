@@ -1,12 +1,14 @@
 import copy
 import sys
 import urllib
-import loginpu
+import modules.loginpu as loginpu
 
 from requests.models import Response
 from signal import signal, SIGINT
 from sys import exit
 from time import sleep
+from socket import timeout
+from urllib.error import HTTPError, URLError
 import urllib.request as urllib2
 
 """
@@ -29,14 +31,14 @@ def basic_login_nosys(username, password):
     return [response]
 
 
-# 5 is suggested
+# min 2 is suggested for intervel
 def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     """
-    Runs script forever to keep wifi connected logged in
+    Runs script forever to keep wifi logged in
     """
     try:
         req = urllib2.Request("http://10.0.0.11:8090/",
-                              headers={'User-Agent': 'Mozilla/5.0'})
+                              headers={'User-Agent': 'Mozilla/5.0'},timeout=10)
         urllib2.urlopen(req)
         print("Check: \"Parul_WIFI\" connected")
     except urllib.error.URLError:
@@ -45,14 +47,18 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
         print(x+1)
     try:
         req2 = urllib2.Request("https://www.google.com",
-                               headers={'User-Agent': 'Mozilla/5.0'})
+                               headers={'User-Agent': 'Mozilla/5.0'}, timeout=10)
         urllib2.urlopen(req2)
         print("Internet Connection Avalible")
     except urllib.error.URLError:
         print("Attempting To Sign In " + username)
-        # response = copy.deepcopy(basic_login_nosys(username, password))
         print("looged in as " + username)
-        # print("------\nStatus: " + response[2]+ "\n------")
+    except URLError as error:
+        if isinstance(error.reason, timeout):
+            print('connection timed out - URL %s', url)
+        else:
+            error('some other error happened')
+
     sleep(interval)
 
 
