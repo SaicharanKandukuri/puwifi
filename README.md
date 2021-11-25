@@ -1,9 +1,23 @@
 # logmein python Version
 
-python script to login parul university wifi
+> python script to login parul university wifi
+
+![imageonline-co-roundcorner](https://user-images.githubusercontent.com/68287637/143475678-bc8c317c-3961-4f7f-bcfd-bfce190811b0.png)
+
 
 # usage
-## Normal One-Time Login
+## ❤️‍🔥 forever login script
+this one check access to internet with 5 seconds interval and log back in if wifi logged out
+
+take two command line arguments 
+ 1. username
+ 2. password
+
+```cmd
+python3 keep_alive.py username password
+```
+
+## 1️⃣ Normal One-Time Login
 for this a template script is avalible `main.py`
 take two command line arguments 
  1. username
@@ -14,16 +28,7 @@ example:
 python3 main.py username password
 ```
 
-## forever login script
-this one check access to internet with 5 seconds interval and log back in if wifi logged out
 
-take two command line arguments 
- 1. username
- 2. password
-
-```cmd
-python3 keep_alive.py username password
-```
 <hr>
 
 # Module
