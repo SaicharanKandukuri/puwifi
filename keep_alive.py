@@ -1,4 +1,7 @@
-import copy,sys,urllib,loginpu
+import copy
+import sys
+import urllib
+import loginpu
 
 from requests.models import Response
 from signal import signal, SIGINT
@@ -11,7 +14,9 @@ Accept user input and pass it to the loginpu module
     script <username> <password>
         url is set to deafault value http://10.0.0.11:8090/login.xml        
 """
-x=0
+x = 0
+
+
 def basic_login_nosys(username, password):
     """
     Accept user input and pass it to the loginpu module
@@ -23,12 +28,15 @@ def basic_login_nosys(username, password):
     response = copy.deepcopy(loginpu.login(url, username, password))
     return [response]
 
-def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=2): # 5 is suggested
+
+# 5 is suggested
+def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     """
     Runs script forever to keep wifi connected logged in
     """
     try:
-        req = urllib2.Request("http://10.0.0.11:8090/", headers={'User-Agent':'Mozilla/5.0'})
+        req = urllib2.Request("http://10.0.0.11:8090/",
+                              headers={'User-Agent': 'Mozilla/5.0'})
         urllib2.urlopen(req)
         print("Check: \"Parul_WIFI\" connected")
     except urllib.error.URLError:
@@ -36,20 +44,23 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2],interval=2): # 5 is su
         print("Try Connecting to wifi")
         print(x+1)
     try:
-        req2 = urllib2.Request("https://www.google.com", headers={'User-Agent':'Mozilla/5.0'}); urllib2.urlopen(req2)
+        req2 = urllib2.Request("https://www.google.com",
+                               headers={'User-Agent': 'Mozilla/5.0'})
+        urllib2.urlopen(req2)
         print("Internet Connection Avalible")
     except urllib.error.URLError:
-        print("Attempting To Sign In " + username )
+        print("Attempting To Sign In " + username)
         # response = copy.deepcopy(basic_login_nosys(username, password))
         print("looged in as " + username)
-        # print("------\nStatus: " + response[2]+ "\n------")        
+        # print("------\nStatus: " + response[2]+ "\n------")
     sleep(interval)
-        
+
 
 def handler(signal_received, frame):
     # Handle any cleanup here
     print('\nSIGINT or CTRL-C detected. Exiting gracefully')
     exit(0)
+
 
 if __name__ == '__main__':
     # Tell Python to run the handler() function when SIGINT is recieved
