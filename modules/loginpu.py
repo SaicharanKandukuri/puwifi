@@ -1,7 +1,7 @@
 import requests
 
 ################################################################
-# Basic usage of loginpu.py as module
+# login_pu.py
 #
 # Copyright (C) 2021 SaicharanKandukrui <saicharankandukuri1x1@gmail.com>
 #
