@@ -1,5 +1,5 @@
 import requests
-
+# Basic example script
 url = 'http://10.0.0.11:8090/login.xml'
 
 headers = {
@@ -14,7 +14,7 @@ headers = {
     "Accept-Language": "en-US,en;q=0.9",
     "Connection": "close",
 }
-body = 'mode=191&username=200303124264&password=bf%4066&a=1630404423764&producttype=0'
+body = 'mode=191&username=test1&password=passurlencoded&a=1630404423764&producttype=0'
 data = bytearray(body, 'utf-8')
 r = requests.post(url, data=data, headers=headers, verify=False)
 print(r.status_code)
