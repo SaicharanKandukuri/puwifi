@@ -1,4 +1,2 @@
 requests
-signal
-urllib
-socket
+rich

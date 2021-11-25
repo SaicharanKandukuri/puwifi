@@ -1,6 +1,7 @@
 import copy
 import sys
 import urllib
+import logging
 import modules.loginpu as loginpu
 
 from requests.models import Response
@@ -10,6 +11,7 @@ from time import sleep
 from socket import timeout
 from urllib.error import HTTPError, URLError
 import urllib.request as urllib2
+from rich.logging import RichHandler
 
 """
 Accept user input and pass it to the loginpu module
@@ -18,6 +20,12 @@ Accept user input and pass it to the loginpu module
 """
 x = 0
 
+# logger with rich logging format
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+log = logging.getLogger("rich")
 
 def basic_login_nosys(username, password):
     """
@@ -28,8 +36,7 @@ def basic_login_nosys(username, password):
     url = "http://10.0.0.11:8090/login.xml"
 
     response = copy.deepcopy(loginpu.login(url, username, password))
-    return [response]
-
+    return [{'logedin': response[0], 'response': response[1], 'server_status': response[2]}]
 
 # min 2 is suggested for intervel
 def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
@@ -38,33 +45,32 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     """
     try:
         req = urllib2.Request("http://10.0.0.11:8090/",
-                              headers={'User-Agent': 'Mozilla/5.0'},timeout=10)
+                              headers={'User-Agent': 'Mozilla/5.0'})
         urllib2.urlopen(req)
-        print("Check: \"Parul_WIFI\" connected")
+        log.info("Check: \"Parul_WIFI\" connected")
     except urllib.error.URLError:
-        print("Could not see \"PARUL_WIFI\"")
-        print("Try Connecting to wifi")
-        print(x+1)
+        log.warning("Could not see \"PARUL_WIFI\"")
+        log.warning("Try Connecting to wifi?")
     try:
         req2 = urllib2.Request("https://www.google.com",
-                               headers={'User-Agent': 'Mozilla/5.0'}, timeout=10)
+                               headers={'User-Agent': 'Mozilla/5.0'})
         urllib2.urlopen(req2)
-        print("Internet Connection Avalible")
+        log.info("Internet Connection Avalible")
     except urllib.error.URLError:
-        print("Attempting To Sign In " + username)
-        print("looged in as " + username)
+        log.info("Attempting To Sign In " + username)
+        log.info("looged in as " + username)
+        log.info(basic_login_nosys(username, password))
     except URLError as error:
         if isinstance(error.reason, timeout):
-            print('connection timed out - URL %s', url)
+            log.warning('connection timed out, low bandwidth?')
         else:
-            error('some other error happened')
-
+            log.error('some other error happened')
     sleep(interval)
 
 
 def handler(signal_received, frame):
     # Handle any cleanup here
-    print('\nSIGINT or CTRL-C detected. Exiting gracefully')
+    log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
     exit(0)
 
 
@@ -72,6 +78,6 @@ if __name__ == '__main__':
     # Tell Python to run the handler() function when SIGINT is recieved
     signal(SIGINT, handler)
 
-    print('Running '+sys.argv[0]+'. Press CTRL-C to exit.')
+    log.info('Running '+sys.argv[0]+'. Press CTRL-C to exit.')
     while True:
         keep_alive(sys.argv[1], sys.argv[2])
