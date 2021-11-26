@@ -82,7 +82,7 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
         urllib2.urlopen(req2)
         log.info("Internet Connection Avalible")
     except urllib.error.URLError:
-        log.warning("Internet Acees Failed ?")
+        log.warning("Internet access Failed ?")
         log.info("Attempting To Sign In " + username)
         log.info("looged in as " + username)
         log.info(basic_login_nosys(username, password))
