@@ -4,6 +4,7 @@
 
 ![imageonline-co-roundcorner](https://user-images.githubusercontent.com/68287637/143475678-bc8c317c-3961-4f7f-bcfd-bfce190811b0.png)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi?ref=badge_shield)
+[![CodeQL](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml)
 
 # Installation
 - make sure you installed python in your OS
