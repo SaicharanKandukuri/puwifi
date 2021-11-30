@@ -4,7 +4,13 @@
 
 ![imageonline-co-roundcorner](https://user-images.githubusercontent.com/68287637/143475678-bc8c317c-3961-4f7f-bcfd-bfce190811b0.png)
 
-
+# Installation
+- make sure you installed python in your OS
+```bash
+git clone https://github.com/SaicharanKandukuri/puwifi
+cd puwifi
+pip install -r requirements.txt
+```
 # usage
 ## ❤️‍🔥 forever login script
 this one check access to internet with 5 seconds interval and log back in if wifi logged out
