@@ -1,7 +1,9 @@
 import modules.loginpu as loginpu
 import sys
 import copy
-from modules.loginpu import ping_host as ph
+import logging
+
+from rich.logging import RichHandler
 
 ################################################################
 # Basic usage of loginpu.py as module
@@ -22,6 +24,12 @@ from modules.loginpu import ping_host as ph
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 ###################################################################
 
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+log = logging.getLogger("rich")
+
 
 """
 Accept user input and pass it to the loginpu module
@@ -31,9 +39,5 @@ Accept user input and pass it to the loginpu module
 username = sys.argv[1]
 password = sys.argv[2]
 url = "http://10.0.0.11:8090/login.xml"
-response = copy.deepcopy(loginpu.login(url, username, password)[:])
-if (response[0] == True):
-    print("Successfully logged in as", username)
-else:
-    print("Failed to login")
-    print("Response: " + str(response))
+log.info("tying to login as\""+username+"\" with password \""+password+ "\"")
+log.info(loginpu.login(url, username, password))
