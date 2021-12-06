@@ -18,19 +18,18 @@
 ###################################################################
 
 import copy
+import logging
 import sys
 import urllib
-import logging
-import modules.loginpu as loginpu
-
-from requests.models import Response
+import urllib.request as urllib2
 from signal import signal, SIGINT
 from sys import exit
 from time import sleep
-from socket import timeout
-from urllib.error import HTTPError, URLError
-import urllib.request as urllib2
+from urllib.error import HTTPError
+
 from rich.logging import RichHandler
+
+import modules.loginpu as loginpu
 
 """
 Accept user input and pass it to the loginpu module
@@ -46,6 +45,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("rich")
 
+
 def basic_login_nosys(username, password):
     """
     Accept user input and pass it to the loginpu module
@@ -57,10 +57,11 @@ def basic_login_nosys(username, password):
     response = copy.deepcopy(loginpu.login(url, username, password))
     return [{'logedin': response[0], 'response': response[1], 'server_status': response[2]}]
 
+
 # min 2 is suggested for intervel
 def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     """
-    Runs script forever to keep wifi logged in
+    Runs script forever to keep Wi-Fi logged in
     """
     try:
         req = urllib2.Request("http://10.0.0.11:8090/",
@@ -70,11 +71,9 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     except urllib.error.URLError:
         log.warning("Could not see \"PARUL_WIFI\"")
         log.warning("Try Connecting to wifi?")
-    except URLError as error:
-        if isinstance(error.reason, timeout):
-            log.warning('connection timed out, low bandwidth?')
-        else:
-            log.error('some other error happened')
+        log.warning('connection timed out, low bandwidth?')
+    else:
+        log.error('some other error happened')
 
     try:
         req2 = urllib2.Request("https://www.google.com",
@@ -86,15 +85,13 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
         log.info("Attempting To Sign In " + username)
         log.info("looged in as " + username)
         log.info(basic_login_nosys(username, password))
-    except URLError as error:
-        if isinstance(error.reason, timeout):
-            log.warning('connection timed out, low bandwidth?')
-        else:
-            log.error('some other error happened')
+        log.warning('connection timed out, low bandwidth?')
+    else:
+        log.error('some other error happened')
     sleep(interval)
 
 
-def handler(signal_received, frame):
+def handler():
     # Handle any cleanup here
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
     exit(0)
@@ -104,6 +101,6 @@ if __name__ == '__main__':
     # Tell Python to run the handler() function when SIGINT is recieved
     signal(SIGINT, handler)
 
-    log.info('Running '+sys.argv[0]+'. Press CTRL-C to exit.')
+    log.info('Running ' + sys.argv[0] + '. Press CTRL-C to exit.')
     while True:
         keep_alive(sys.argv[1], sys.argv[2])

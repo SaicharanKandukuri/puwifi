@@ -32,7 +32,8 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     headers = {
         "Host": "10.0.0.11:8090",
         "Content-Length": "77",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/92.0.4515.159 Safari/537.36",
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "*/*",
         "Origin": "http://10.0.0.11:8090",
@@ -43,6 +44,7 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
     }
     body = 'mode=191&username=' + username + '&password=' + \
         password + '&a=1630404423764&producttype=0'
-    data = bytearray(body, 'utf-8')  # server takes header body data in binary ( still server is local & runs on HTTP  protocol (RIP: USERS))
+    data = bytearray(body, 'utf-8')  # server takes header body data in binary ( still server is local & runs on HTTP
+    #  protocol (RIP: USERS))
     r = requests.post(url, data=data, headers=headers, verify=False)
     return [(r.status_code == 200), r.text, r.status_code]
