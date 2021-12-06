@@ -1,9 +1,9 @@
-import modules.loginpu as loginpu
-import sys
-import copy
 import logging
+import sys
 
 from rich.logging import RichHandler
+
+import modules.loginpu as loginpu
 
 ################################################################
 # Basic usage of loginpu.py as module
