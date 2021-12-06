@@ -72,8 +72,7 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
         log.warning("Could not see \"PARUL_WIFI\"")
         log.warning("Try Connecting to wifi?")
         log.warning('connection timed out, low bandwidth?')
-    else:
-        log.error('some other error happened')
+
 
     try:
         req2 = urllib2.Request("https://www.google.com",
@@ -86,12 +85,11 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
         log.info("looged in as " + username)
         log.info(basic_login_nosys(username, password))
         log.warning('connection timed out, low bandwidth?')
-    else:
-        log.error('some other error happened')
+
     sleep(interval)
 
 
-def handler():
+def handler(signal_received, frame):
     # Handle any cleanup here
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
     exit(0)
