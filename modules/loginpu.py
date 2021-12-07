@@ -25,7 +25,7 @@ Copyright (C) 2021 SaicharanKandukrui <saicharankandukuri1x1@gmail.com>
 """
 
 
-def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=None):
+def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=None, timeout=10):
 
     url = str(login_url)
 
@@ -46,5 +46,5 @@ def login(login_url="http://10.0.0.11:8090/login.xml", username=None, password=N
         password + '&a=1630404423764&producttype=0'
     data = bytearray(body, 'utf-8')  # server takes header body data in binary ( still server is local & runs on HTTP
     #  protocol (RIP: USERS))
-    r = requests.post(url, data=data, headers=headers, verify=False)
+    r = requests.post(url, data=data, headers=headers, verify=False, timeout=timeout)
     return [(r.status_code == 200), r.text, r.status_code]

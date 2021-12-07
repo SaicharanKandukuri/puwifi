@@ -30,7 +30,6 @@ logging.basicConfig(
 )
 log = logging.getLogger("rich")
 
-
 """
 Accept user input and pass it to the loginpu module
     main.py <username> <password>
@@ -39,5 +38,5 @@ Accept user input and pass it to the loginpu module
 username = sys.argv[1]
 password = sys.argv[2]
 url = "http://10.0.0.11:8090/login.xml"
-log.info("tying to login as\""+username+"\" with password \""+password+ "\"")
+log.info("tying to login as\"" + username + "\" with password \"" + password + "\"")
 log.info(loginpu.login(url, username, password))

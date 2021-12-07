@@ -27,6 +27,7 @@ from sys import exit
 from time import sleep
 from urllib.error import HTTPError
 
+import requests
 from rich.logging import RichHandler
 
 import modules.loginpu as loginpu
@@ -58,21 +59,24 @@ def basic_login_nosys(username, password):
     return [{'logedin': response[0], 'response': response[1], 'server_status': response[2]}]
 
 
+def check_for_connection(url, timeout=5):
+    try:
+        requests.get(url, timeout=timeout)
+        return 0
+    except (requests.ConnectionError, requests.Timeout):
+        return 1
+
+
 # min 2 is suggested for intervel
 def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     """
     Runs script forever to keep Wi-Fi logged in
     """
-    try:
-        req = urllib2.Request("http://10.0.0.11:8090/",
-                              headers={'User-Agent': 'Mozilla/5.0'})
-        urllib2.urlopen(req)
-        log.info("Check: \"Parul_WIFI\" connected")
-    except urllib.error.URLError:
-        log.warning("Could not see \"PARUL_WIFI\"")
-        log.warning("Try Connecting to wifi?")
-        log.warning('connection timed out, low bandwidth?')
 
+    if check_for_connection("http://10.0.0.11"):
+        log.info("connection to \"10.0.0.11\" available")
+    else:
+        log.warning("Failed to check connection")
 
     try:
         req2 = urllib2.Request("https://www.google.com",
@@ -82,7 +86,7 @@ def keep_alive(username=sys.argv[1], password=sys.argv[2], interval=2):
     except urllib.error.URLError:
         log.warning("Internet access Failed ?")
         log.info("Attempting To Sign In " + username)
-        log.info("looged in as " + username)
+        log.info("logged in as " + username)
         log.info(basic_login_nosys(username, password))
         log.warning('connection timed out, low bandwidth?')
 
