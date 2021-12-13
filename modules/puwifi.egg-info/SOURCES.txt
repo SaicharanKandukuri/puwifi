@@ -1,9 +1,0 @@
-LICENSE
-README.md
-setup.py
-modules/loginpu.py
-modules/puwifi.egg-info/PKG-INFO
-modules/puwifi.egg-info/SOURCES.txt
-modules/puwifi.egg-info/dependency_links.txt
-modules/puwifi.egg-info/requires.txt
-modules/puwifi.egg-info/top_level.txt

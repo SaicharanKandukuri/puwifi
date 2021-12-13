@@ -113,6 +113,8 @@ if __name__ == '__main__':
     signal(SIGINT, exit_handler)
     
     parser = optparse.OptionParser()
+    parser.add_option('m', '--mode', dest='mode', type='string',
+                      help='mode of operation login/logut', default='login')
     parser.add_option('-u', '--username', dest='username',
                       help='username to login/logut with parul university wifi service')
     parser.add_option('-p', '--password', dest='password',
@@ -121,9 +123,12 @@ if __name__ == '__main__':
                       default='10.0.0.11')
     parser.add_option('-P', '--port', dest='port',
                       default='8090')
-    # parser.add_option('-k', '--keep-alive', dest='keep_alive',
-    #                   help='keep connecting to wifi when it gets signed out', default=False)
-
+    parser.add_option('-k', '--keep-alive', action='store_true',
+                       help='keep connecting to wifi when it gets signed out', default=False)
+    parser.add_option('-lo', '--logout', action='store_true', help='logout from wifi', default=False)
+    parser.add_option('-l', '--login', action='store_true', help='login to wifi', default=False)
+    
     options, args = parser.parse_args()
+
     keep_alive(options.username, options.password, options.host, options.port)
     
