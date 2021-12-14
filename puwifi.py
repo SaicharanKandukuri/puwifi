@@ -3,6 +3,7 @@ from sys import getsizeof
 import xml.etree.ElementTree as ET
 import logging
 import requests
+import time
 
 from rich.logging import RichHandler
 from signal import signal, SIGINT
@@ -99,9 +100,10 @@ def keep_alive(username, password,host,port):
             log.info("Connected to the internet")
         else:
             log.error("Not connected to the internet")
-            log.info("Tying to reconnect with "+ 
-                     username + " password: " + password)
-            log.info(wifi_utils.keep_alive(username, password,host,port))
+            log.info("Tying to login back")
+            log.info(wifi_utils.login(username, password,host,port))
+
+        time.sleep(5)
 
 def exit_handler(signal_received, frame):
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
