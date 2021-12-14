@@ -34,7 +34,7 @@ class wifi_utils:
                 host, port,
                 timeout=10) -> list:
 
-        url = ("http://"+host+"/"+port+"/"+type)
+        url = ("http://"+host+":"+port+"/"+type)
         body = ("mode=191&username=" + username + "&password=" + password +
                 "&a=1630404423764&producttype=0"
                 )
