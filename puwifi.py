@@ -1,6 +1,5 @@
 import optparse
 from sys import getsizeof
-import xml.etree.ElementTree as ET
 import logging
 import requests
 import time
@@ -11,11 +10,13 @@ from signal import signal, SIGINT
 FORMAT = "%(message)s"
 
 logging.basicConfig(
-    level="NOTSET", 
-    format=FORMAT, 
-    datefmt="[%X]", 
+    level="NOTSET",
+    format=FORMAT,
+    datefmt="[%X]",
     handlers=[RichHandler()]
 )
+
+logging.disable('DEBUG')
 
 log = logging.getLogger("rich")
 
@@ -29,24 +30,29 @@ class wifi_utils:
         self.port = port
 
     def request(self,
-                type,
+                method,
                 username,
                 password,
                 host, port,
-                timeout=10) -> list:
-
-        url = ("http://"+host+":"+port+"/"+type)
+                timeout) -> list:
+        # print(type(host))
+        # print(type(port))
+        # print(type(method))
+        # print(host)
+        # print(method)
+        # print(port)
+        url = ("http://"+host+":"+port+"/"+method)
         body = ("mode=191&username=" + username + "&password=" + password +
                 "&a=1630404423764&producttype=0"
                 )
         headers = {
-            "Host": "http://"+host+"/"+port+"",
-            "Content-Length": getsizeof(body),
+            "Host": "http://" + host + ":" + port + "",
+            "Content-Length": str(getsizeof(body)),
             "User-Agent": "Chrome/92.0.4515.159 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "*/*",
-            "Origin": "http://"+host+"/"+port,
-            "Referer": "http://"+host+"/"+port+"/",
+            "Origin": "http://" + host + ":" + port,
+            "Referer": "http://" + host + ":" + port + "/",
             "Accept-Encoding": "gzip defalte",
             "Accept-Language": "en-US,en;q=0.9",
             "Connection": "close",
@@ -66,44 +72,53 @@ class wifi_utils:
               password,
               host,
               port,
-              type="login.xml",
+              method="login.xml",
               timeout=10) -> list:
-        
-        return self.request("login.xml", username, password, host, port)
+        return self.request(method, username, password, host, port, timeout)
 
     def logout(self,
                username,
                password,
                host,
                port,
-               type="logout.xml",
+               method="logout.xml",
                timeout=10) -> list:
-        return self.request("logout.xml",username, password, host, port)
+        return self.request(method, username, password, host, port, timeout)
+
+# def get_xml_msg(xml): # for later (●'◡'●)
+#     return Et.parse(xml).getroot()[1]
 
 def connection_to(url, timeout=10):
     try:
         requests.get(url, timeout=timeout)
-        return 0
-    except (requests.ConnectionError, 
+        return True
+    except (requests.ConnectionError,
             requests.Timeout):
-        return 1
+        return False
 
-def keep_alive(username, password,host,port):
+
+def keep_alive(username, password, host, port):
     while True:
-        
+
         if connection_to("http://10.0.0.11:8090/"):
-            log.info("connection to router \"avalible\"")
+            log.info("connection to router \"available\"")
         else:
-            log.error("connection to router \"unavalible\"")
-        
-        if connection_to("https://google.com") == 0:
+            log.critical("connection to router \"unavailable\"")
+
+        if connection_to("https://google.com"):
             log.info("Connected to the internet")
         else:
-            log.error("Not connected to the internet")
+            log.warning("Not connected to the internet")
             log.info("Tying to login back")
-            log.info(wifi_utils.login(username, password,host,port))
+            try:
+                log.info(wifi_utils.login(username, password, host, port))
+            except (requests.ConnectionError,
+                    requests.Timeout):
+                log.critical(
+                    "Connection error: \"UNSTABLE CONNECTION TO HOST\"")
 
         time.sleep(5)
+
 
 def exit_handler(signal_received, frame):
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
@@ -111,26 +126,49 @@ def exit_handler(signal_received, frame):
 
 
 if __name__ == '__main__':
-    
+
     signal(SIGINT, exit_handler)
-    
+
     parser = optparse.OptionParser()
-    parser.add_option('m', '--mode', dest='mode', type='string',
-                      help='mode of operation login/logut', default='login')
     parser.add_option('-u', '--username', dest='username',
-                      help='username to login/logut with parul university wifi service')
+                      help='username to login/logout with parul university wifi service')
     parser.add_option('-p', '--password', dest='password',
                       help='password to login/logout with parul university wifi service')
     parser.add_option('-H', '--host', dest='host',
-                      default='10.0.0.11')
+                      default='10.0.0.11', type=str)
     parser.add_option('-P', '--port', dest='port',
-                      default='8090')
+                      default='8090', type=str)
     parser.add_option('-k', '--keep-alive', action='store_true',
-                       help='keep connecting to wifi when it gets signed out', default=False)
-    parser.add_option('-lo', '--logout', action='store_true', help='logout from wifi', default=False)
-    parser.add_option('-l', '--login', action='store_true', help='login to wifi', default=False)
-    
+                      help='keep connecting to wifi when it gets signed out', default=False)
+    parser.add_option('-o', '--logout', action='store_true',
+                      help='logout from wifi', default=False)
+    parser.add_option('-l', '--login', action='store_true',
+                      help='login to wifi', default=False)
+
     options, args = parser.parse_args()
 
-    keep_alive(options.username, options.password, options.host, options.port)
-    
+    wifi_utils = wifi_utils(
+        options.username, options.password, options.host, options.port)
+
+    if options.login:
+        log.info("=> login <=")
+        wifi_utils.login(options.username,
+                         options.password,
+                         options.host, options.port,
+                        )
+        exit(0)
+
+    if options.logout:
+        log.info("=> logout <=")
+        wifi_utils.logout(options.username,
+                          options.password,
+                          options.host, options.port,
+                          )
+        exit(0)
+
+    if options.keep_alive:
+        log.info("=> keep alive <=")
+        keep_alive(options.username,
+                   options.password,
+                   options.host, options.port,
+                   )
