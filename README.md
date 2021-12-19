@@ -1,10 +1,13 @@
-# logmein python Version
+# PU-wifi
+A python program written by [@saicharankandukuri](https://github.com/SaicharanKandukuri/puwifi) to keep you device connected to parul university wifi
+![LookingAroundGIF](https://user-images.githubusercontent.com/68287637/146674077-b5b823be-8146-4770-a2e7-7ced5a04843c.gif)
 
-> python script to login parul university wifi
+![image](https://user-images.githubusercontent.com/68287637/146674599-1568723d-6c70-49e8-8d71-1275ab3b169d.png)
 
-![imageonline-co-roundcorner](https://user-images.githubusercontent.com/68287637/143475678-bc8c317c-3961-4f7f-bcfd-bfce190811b0.png)
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi?ref=badge_shield)
 [![CodeQL](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/saicharankandukuri/puwifi/badge)](https://www.codefactor.io/repository/github/saicharankandukuri/puwifi)
 
 # Installation
 - make sure you installed python in your OS
@@ -13,64 +16,51 @@ git clone https://github.com/SaicharanKandukuri/puwifi
 cd puwifi
 pip install -r requirements.txt
 ```
-# usage
-## ❤️‍🔥 forever login script
-this one check access to internet with 5 seconds interval and log back in if wifi logged out
+# Usage
 
-take two command line arguments 
- 1. username
- 2. password
-
+### General
+#### 🪵 One-time login `-l`
+you can login with `-l` or `--login` argument
 ```cmd
-python3 keep_alive.py username password
+python3 puwifi.py -l -u YOUR_USERNAME -p YOUR_PASSWORD
+```
+#### 💥 Logout from puwifi
+for logout use option `-o` or `--logout` argument
+```cmd
+python3 puwifi.py -o -u YOUR_PASSWORD -p YOUR_PASSWORD 
+```
+<!--
+> idk why logout requires username and password too! ( vunerability ? )
+--> 
+
+#### ♾️ Forever login mode `-k`
+this is what the aim of repo
+
+`-k` or `--keep-alive` attribute is say script to run a forever loop!
+> scripts tries to contact `google.com` if connection fails script tries to send login request to host *i.e: 10.0.0.1* with username & password provied with `-u` & `-p` arguments
+```cmd
+python3 puwifi.py -k -u YOUR_PASSWORD -p YOUR_PASSWORD 
 ```
 
-## 1️⃣ Normal One-Time Login
-for this a template script is avalible `main.py`
-take two command line arguments 
- 1. username
- 2. password
-
-example:
-```cmd
-python3 main.py username password
-```
-
-
+![PusheenCatGIF](https://user-images.githubusercontent.com/68287637/146673862-cdb4f86e-c55b-470e-aa3f-b98dd362c6fb.gif)
+###### go watch your videos now
 <hr>
 
-# Module
+# Finally
+This repo is made fully on self-intrest cause iam a student in parul university, wifi here is `great&fast` but a bit tricky
+![RepeatJumpGIF](https://user-images.githubusercontent.com/68287637/146674165-5d586b3c-dfce-41d7-8ebe-54917b27fb91.gif)
+
+so instead of playing dino i made this script by re-enginerring an year old puwifi login website & used some of knowledge to make this script happen
 
 
-```
-Help on module loginpu:
+🐣 follow me on in [github](https://github.com/SaicharanKandukuri), [Twitter](https://twitter.com/AtonZman1x1)
 
-NAME
-    loginpu
+🎮 Add me on discord: SaicharanKandukuri#3741
 
-FUNCTIONS
-    login(login_url='http://10.0.0.11:8090/login.xml', username=None, password=None)
-        Sends Login requests to Parul University Login Page
-
-FILE
-    modules/loginpu.py
-```
-## loginpu.py
-A library with essentials to login to parul wifi
-
-functions
-
-`login` → Sends Login requests to Parul University Login Page
+🌟 If this work of me helped you make sure you start this repo, or buy me a juice of coffee when we meet 🥤
 
 
-# License
-**Copyright (C) 2021 SaicharanKandukuri <saicharankandukuri1x1@gmail.com>**
-> This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-> This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-<details>
- <summary> MORE </summary>
-
+> ⚠️ DOnt use practices used in this code for any kind of mischievous things. i need wifi working
 ---
 
 # 3rd-Party Software for [puwifi]()
