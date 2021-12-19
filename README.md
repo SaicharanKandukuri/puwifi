@@ -61,6 +61,13 @@ so instead of playing dino i made this script by re-enginerring an year old puwi
 
 
 > ⚠️ DOnt use practices used in this code for any kind of mischievous things. i need wifi working
+
+# Licence
+[GPL-3.0 License](https://github.com/SaicharanKandukuri/puwifi/blob/main/LICENSE) Copyright ©️ saicharankandukuri 
+
+<details>
+
+  <summary> Third-party Licences </summary>
 ---
 
 # 3rd-Party Software for [puwifi]()
