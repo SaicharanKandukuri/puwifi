@@ -2,7 +2,11 @@
 A python program written by [@saicharankandukuri](https://github.com/SaicharanKandukuri/puwifi) to keep you device connected to parul university wifi
 ![LookingAroundGIF](https://user-images.githubusercontent.com/68287637/146674077-b5b823be-8146-4770-a2e7-7ced5a04843c.gif)
 
+![image](https://user-images.githubusercontent.com/68287637/146675073-7e1aebcc-056d-4351-b5aa-f7e2f57b1853.png)
+
+<!--
 ![image](https://user-images.githubusercontent.com/68287637/146674599-1568723d-6c70-49e8-8d71-1275ab3b169d.png)
+-->
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi?ref=badge_shield)
