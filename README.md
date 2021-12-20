@@ -31,7 +31,7 @@ python3 puwifi.py -l -u YOUR_USERNAME -p YOUR_PASSWORD
 #### 💥 Logout from puwifi
 for logout use option `-o` or `--logout` argument
 ```cmd
-python3 puwifi.py -o -u YOUR_PASSWORD -p YOUR_PASSWORD 
+python3 puwifi.py -o -u YOUR_USERNAME -p YOUR_PASSWORD 
 ```
 <!--
 > idk why logout requires username and password too! ( vunerability ? )
@@ -43,7 +43,7 @@ this is what the aim of repo
 `-k` or `--keep-alive` attribute is say script to run a forever loop!
 > scripts tries to contact `google.com` if connection fails script tries to send login request to host *i.e: 10.0.0.1* with username & password provied with `-u` & `-p` arguments
 ```cmd
-python3 puwifi.py -k -u YOUR_PASSWORD -p YOUR_PASSWORD 
+python3 puwifi.py -k -u YOUR_USERNAME -p YOUR_PASSWORD 
 ```
 
 ![PusheenCatGIF](https://user-images.githubusercontent.com/68287637/146673862-cdb4f86e-c55b-470e-aa3f-b98dd362c6fb.gif)

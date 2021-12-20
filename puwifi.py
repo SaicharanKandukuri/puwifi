@@ -152,18 +152,18 @@ if __name__ == '__main__':
 
     if options.login:
         log.info("=> login <=")
-        wifi_utils.login(options.username,
+        log.info(wifi_utils.login(options.username,
                          options.password,
                          options.host, options.port,
-                        )
+                        ))
         exit(0)
 
     if options.logout:
         log.info("=> logout <=")
-        wifi_utils.logout(options.username,
+        log.info(wifi_utils.logout(options.username,
                           options.password,
                           options.host, options.port,
-                          )
+                          ))
         exit(0)
 
     if options.keep_alive:
