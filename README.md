@@ -59,7 +59,7 @@ so instead of playing dino i made this script by re-enginerring an year old puwi
 
 🐣 follow me on in [github](https://github.com/SaicharanKandukuri), [Twitter](https://twitter.com/AtonZman1x1)
 
-🎮 Add me on discord: SaicharanKandukuri#3741
+🎮 Add me on discord: SAICHARAN セー チャラン#3741
 
 🌟 If this work of me helped you make sure you start this repo, or buy me a juice of coffee when we meet 🥤
 
