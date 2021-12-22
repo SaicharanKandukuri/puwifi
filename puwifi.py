@@ -1,11 +1,14 @@
 import optparse
+import sys
 from sys import getsizeof
 import logging
-import requests
+from signal import signal, SIGINT
 import time
+import requests
+
 
 from rich.logging import RichHandler
-from signal import signal, SIGINT
+
 
 FORMAT = "%(message)s"
 
@@ -21,26 +24,37 @@ logging.disable('DEBUG')
 log = logging.getLogger("rich")
 
 
-class wifi_utils:
-
+class WifiUtils:
+    """class for wifi utils"""
     def __init__(self, username, password, host, port):
         self.username = username
         self.password = password
         self.host = host
         self.port = port
 
-    def request(self,
+    @classmethod
+    def request(cls,
                 method,
                 username,
                 password,
                 host, port,
                 timeout) -> list:
-        # print(type(host))
-        # print(type(port))
-        # print(type(method))
-        # print(host)
-        # print(method)
-        # print(port)
+        """request method: sends request to wifi host
+
+        Args:
+            method (str): interaction method "login.xml" or "logout.xml". Defaults to "login.xml".
+            username (str): username assigned by parul university to access wifi
+            password (str): password assigned by parul university to access wifi
+            host (str): hostname of the parul university wifi hotspot/routers Defaults to "
+            port (str): port to send login request. Defaults to "8090".
+            timeout (int): request timeout. Defaults to 10.
+
+        Returns:
+            list
+            server_request status[true|false]
+            response(xml data returned form server)
+            status_code(web request status code)
+        """
         url = ("http://"+host+":"+port+"/"+method)
         body = ("mode=191&username=" + username + "&password=" + password +
                 "&a=1630404423764&producttype=0"
@@ -59,36 +73,68 @@ class wifi_utils:
         }
         body_array = bytearray(body, 'utf-8')
 
-        r = requests.post(url,
+        req = requests.post(url,
                           data=body_array,
                           headers=headers,
                           timeout=timeout,
                           verify=False
                           )
-        return [(r.status_code == 200), r.text, r.status_code]
+        return [(req.status_code == 200), req.text, req.status_code]
 
     def login(self,
               username,
               password,
               host,
-              port,
+              port="8090",
               method="login.xml",
               timeout=10) -> list:
+        """login: uses request method to send login web request with credentials to wifi host
+
+        Args:
+            username (str): username assigned by parul university to access wifi
+            password (str): password assigned by parul university to access wifi
+            host (str): hostname of the parul university wifi hotspot/routers
+            Defaults to "10.0.0.11"
+            port (str, optional): port to send login request. Defaults to "8090".
+            method (str, optional): interaction method
+            "login.xml" or "logout.xml". Defaults to "login.xml".
+            timeout (int, optional): request timeout. Defaults to 10.
+        """
         return self.request(method, username, password, host, port, timeout)
 
     def logout(self,
                username,
                password,
                host,
-               port,
+               port="8090",
                method="logout.xml",
                timeout=10) -> list:
+        """logout: uses request method to send logout web request with credentials to wifi host
+
+        Args:
+            username (str): username assigned by parul university to access wifi
+            password (str): password assigned by parul university to access wifi
+            host (str): hostname of the parul university wifi hotspot/routers
+            Defaults to "10.0.0.11"
+            port (str, optional): port to send login request. Defaults to "8090".
+            method (str, optional): interaction method
+            "login.xml" or "logout.xml". Defaults to "logout.xml".
+            timeout (int, optional): request timeout. Defaults to 10.
+        """
         return self.request(method, username, password, host, port, timeout)
 
 # def get_xml_msg(xml): # for later (●'◡'●)
 #     return Et.parse(xml).getroot()[1]
 
+def grey_print(_string):
+    """prints outs grey text
+
+    Args:
+        _string (str)
+    """
+    print(f"\033[90m{_string}\033[0m")
 def connection_to(url, timeout=10):
+    """checks if connection to url is available"""
     try:
         requests.get(url, timeout=timeout)
         return True
@@ -98,6 +144,7 @@ def connection_to(url, timeout=10):
 
 
 def keep_alive(username, password, host, port):
+    """keeps connection alive to wifi host"""
     while True:
 
         if connection_to("http://10.0.0.11:8090/"):
@@ -111,7 +158,7 @@ def keep_alive(username, password, host, port):
             log.warning("Not connected to the internet")
             log.info("Tying to login back")
             try:
-                log.info(wifi_utils.login(username, password, host, port))
+                log.info(WifiUtils.login(username, password, host, port))
             except (requests.ConnectionError,
                     requests.Timeout):
                 log.critical(
@@ -119,10 +166,12 @@ def keep_alive(username, password, host, port):
 
         time.sleep(5)
 
-
-def exit_handler(signal_received, frame):
+def exit_handler(_signal, frame):
+    """captures keyboard interrupts and kill signals & exits with messesage"""
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
-    exit(0)
+    grey_print("signal:"+str(_signal))
+    grey_print("frame:"+str(frame))
+    sys.exit(0)
 
 
 if __name__ == '__main__':
@@ -147,24 +196,24 @@ if __name__ == '__main__':
 
     options, args = parser.parse_args()
 
-    wifi_utils = wifi_utils(
+    WifiUtils = WifiUtils(
         options.username, options.password, options.host, options.port)
 
     if options.login:
         log.info("=> login <=")
-        log.info(wifi_utils.login(options.username,
+        log.info(WifiUtils.login(options.username,
                          options.password,
                          options.host, options.port,
                         ))
-        exit(0)
+        sys.exit(0)
 
     if options.logout:
         log.info("=> logout <=")
-        log.info(wifi_utils.logout(options.username,
+        log.info(WifiUtils.logout(options.username,
                           options.password,
                           options.host, options.port,
                           ))
-        exit(0)
+        sys.exit(0)
 
     if options.keep_alive:
         log.info("=> keep alive <=")
