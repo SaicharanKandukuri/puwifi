@@ -12,6 +12,7 @@ A python program written by [@saicharankandukuri](https://github.com/SaicharanKa
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaicharanKandukuri%2Fpuwifi?ref=badge_shield)
 [![CodeQL](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/codeql-analysis.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/saicharankandukuri/puwifi/badge)](https://www.codefactor.io/repository/github/saicharankandukuri/puwifi)
+[![Pylint](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/pylint.yml/badge.svg)](https://github.com/SaicharanKandukuri/puwifi/actions/workflows/pylint.yml)
 
 # Installation
 - make sure you installed python in your OS
