@@ -1,4 +1,0 @@
-requests
-pip
-rich
-argparse
