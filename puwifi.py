@@ -76,7 +76,7 @@ class WifiUtils:
             response(xml data returned form server)
             status_code(web request status code)
         """
-        url = ("http://"+host+":"+port+"/"+method)
+        url = "http://"+host+":"+port+"/"+method
         body = ("mode=191&username=" + username + "&password=" + password +
                 "&a=1630404423764&producttype=0"
                 )
@@ -196,8 +196,10 @@ def exit_handler(_signal, frame):
 
 
 def main():
+    """Entry point
+    """
     signal(SIGINT, exit_handler)
-    
+
     parser = argparse.ArgumentParser(
         prog='puwifi', 
         description='parul university wifi login/logout tool',
@@ -221,7 +223,7 @@ def main():
     
     args = parser.parse_args()
     
-    if sys.argv[1:] == []:
+    if not sys.argv[1:]:
         print("no arguments passed")
         print(parser.print_help())
     
