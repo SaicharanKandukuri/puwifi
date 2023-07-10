@@ -1,4 +1,4 @@
-import optparse
+import argparse
 import sys
 from sys import getsizeof
 import logging
@@ -195,50 +195,56 @@ def exit_handler(_signal, frame):
     sys.exit(0)
 
 
-if __name__ == '__main__':
-
+def main():
     signal(SIGINT, exit_handler)
-
-    parser = optparse.OptionParser()
-    parser.add_option('-u', '--username', dest='username',
+    
+    parser = argparse.ArgumentParser(
+        prog='puwifi', 
+        description='parul university wifi login/logout tool',
+        epilog="🍵 made by @SaicharanKandukuri"
+        )
+    
+    parser.add_argument('-u', '--username', dest='username',
                       help='username to login/logout with parul university wifi service')
-    parser.add_option('-p', '--password', dest='password',
+    parser.add_argument('-p', '--password', dest='password',
                       help='password to login/logout with parul university wifi service')
-    parser.add_option('-H', '--host', dest='host',
+    parser.add_argument('-H', '--host', dest='host',
                       default='10.0.0.11', type=str)
-    parser.add_option('-P', '--port', dest='port',
+    parser.add_argument('-P', '--port', dest='port',
                       default='8090', type=str)
-    parser.add_option('-k', '--keep-alive', action='store_true',
+    parser.add_argument('-k', '--keep-alive', action='store_true',
                       help='keep connecting to wifi when it gets signed out', default=False)
-    parser.add_option('-o', '--logout', action='store_true',
+    parser.add_argument('-o', '--logout', action='store_true',
                       help='logout from wifi', default=False)
-    parser.add_option('-l', '--login', action='store_true',
+    parser.add_argument('-l', '--login', action='store_true',
                       help='login to wifi', default=False)
-
-    options, args = parser.parse_args()
-
-    WifiUtils = WifiUtils(
-        options.username, options.password, options.host, options.port)
-
-    if options.login:
+    
+    args = parser.parse_args()
+    
+    if sys.argv[1:] == []:
+        print("no arguments passed")
+        print(parser.print_help())
+    
+    if args.login:
         log.info("=> login <=")
-        log.info(WifiUtils.login(options.username,
-                         options.password,
-                         options.host, options.port,
+        log.info(WifiUtils.login(args.username,
+                         args.password,
+                         args.host, args.port,
                         ))
         sys.exit(0)
-
-    if options.logout:
+    
+    if args.logout:
         log.info("=> logout <=")
-        log.info(WifiUtils.logout(options.username,
-                          options.password,
-                          options.host, options.port,
+        log.info(WifiUtils.logout(args.username,
+                          args.password,
+                          args.host, args.port,
                           ))
         sys.exit(0)
-
-    if options.keep_alive:
+    
+    if args.keep_alive:
         log.info("=> keep alive <=")
-        keep_alive(options.username,
-                   options.password,
-                   options.host, options.port,
+        keep_alive(args.username,
+                   args.password,
+                   args.host, args.port,
                    )
+    
