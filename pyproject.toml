@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="puwifi"
+version="1.0.1"
+
+authors = [
+    { name="SaicharanKandukuri", email="saicharankandukuri1x1@gmail.com"}
+]
+
+description = "⚡ A script made to automate the wifi login process to Parul university routers. login to wifi forever"
+readme = "README.md"
+requires-python = ">=3.0"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "requests",
+    "rich",
+    "argparse"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/SaicharanKandukuri/puwifi"
+"Bug Tracker"  = "https://github.com/SaicharanKandukuri/puwifi/issues"
+
+[project.scripts]
+puwifi = "puwifi:main"
