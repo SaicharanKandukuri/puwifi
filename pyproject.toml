@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name="puwifi"
-version="1.0.1"
+version="1.0.3"
 
 authors = [
     { name="SaicharanKandukuri", email="saicharankandukuri1x1@gmail.com"}

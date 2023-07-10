@@ -1,5 +1,5 @@
 # PU-wifi
-A python program written by that simulates puwifi authentication request process to keep you device connected to parul university wifi
+A python program that simulates [parul university](https://www.google.com/search?q=parul+university) wifi web authentication request process to keep you device connected to parul university wifi (with-a-loop)
 
 ![image](https://user-images.githubusercontent.com/68287637/146675073-7e1aebcc-056d-4351-b5aa-f7e2f57b1853.png)
 
