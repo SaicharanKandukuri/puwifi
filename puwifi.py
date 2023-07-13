@@ -53,8 +53,7 @@ class WifiUtils:
         self.host = host
         self.port = port
 
-    @classmethod
-    def request(cls,
+    def pw_request(cls,
                 method,
                 username,
                 password,
@@ -121,7 +120,7 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "login.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.request(method, username, password, host, port, timeout)
+        return self.pw_request(method, username, password, host, port, timeout)
 
     def logout(self,
                username,
@@ -142,7 +141,7 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "logout.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.request(method, username, password, host, port, timeout)
+        return self.pw_request(method, username, password, host, port, timeout)
 
 # def get_xml_msg(xml): # for later (●'◡'●)
 #     return Et.parse(xml).getroot()[1]
