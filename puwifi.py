@@ -219,13 +219,15 @@ def main():
     
     args = parser.parse_args()
     
+    wu = WifiUtils()
+    
     if not sys.argv[1:]:
         print("no arguments passed")
         print(parser.print_help())
     
     if args.login:
         log.info("=> login <=")
-        log.info(WifiUtils.login(args.username,
+        log.info(wu.login(args.username,
                          args.password,
                          args.host, args.port,
                         ))
@@ -233,7 +235,7 @@ def main():
     
     if args.logout:
         log.info("=> logout <=")
-        log.info(WifiUtils.logout(args.username,
+        log.info(wu.logout(args.username,
                           args.password,
                           args.host, args.port,
                           ))
