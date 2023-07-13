@@ -47,12 +47,9 @@ log = logging.getLogger("rich")
 
 class WifiUtils:
     """class for wifi utils"""
-    def __init__(self, username, password, host, port):
-        self.username = username
-        self.password = password
-        self.host = host
-        self.port = port
-
+    def __init__(self):
+        pass
+    
     def pw_request(self,
                 method,
                 username,
