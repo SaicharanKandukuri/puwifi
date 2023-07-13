@@ -26,14 +26,6 @@ A python program that simulates [parul university](https://www.google.com/search
 pip install puwifi
 ```
 
-### Manuall Installation
-- make sure you installed python in your OS
-
-```bash
-git clone https://github.com/SaicharanKandukuri/puwifi
-cd puwifi
-pip install -r requirements.txt
-```
 ## Usage
 
 #### General
@@ -43,20 +35,24 @@ this is what the aim of repo
 
 `-k` or `--keep-alive` attribute is say script to run a forever loop!
 > scripts tries to contact `google.com` if connection fails script tries to send login request to host *i.e: 10.0.0.1* with username & password provied with `-u` & `-p` arguments
-```cmd
-python3 puwifi.py -k -u YOUR_USERNAME -p YOUR_PASSWORD 
+
+
+```bash
+puwifi -k -u YOUR_USERNAME -p YOUR_PASSWORD 
 ```
 
 ##### 🪵 One-time login `-l`
 you can login with `-l` or `--login` argument
-```cmd
-python3 puwifi.py -l -u YOUR_USERNAME -p YOUR_PASSWORD
+
+```bash
+puwifi -l -u YOUR_USERNAME -p YOUR_PASSWORD
 ```
 ##### 💥 Logout from puwifi
 for logout use option `-o` or `--logout` argument
-```cmd
-python3 puwifi.py -o -u YOUR_USERNAME -p YOUR_PASSWORD 
+```bash
+puwifi -o -u YOUR_USERNAME -p YOUR_PASSWORD 
 ```
+
 <!--
 > idk why logout requires username and password too! ( vunerability ? )
 --> 
