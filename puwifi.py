@@ -53,7 +53,7 @@ class WifiUtils:
         self.host = host
         self.port = port
 
-    def pw_request(cls,
+    def pw_request(self,
                 method,
                 username,
                 password,
