@@ -84,9 +84,9 @@ so instead of playing dino i made this script by re-enginerring an year old puwi
 ![PusheenCatGIF](https://user-images.githubusercontent.com/68287637/146673862-cdb4f86e-c55b-470e-aa3f-b98dd362c6fb.gif)
 ###### go watch your videos now
 ## BUILD EXE (Only for windows):
-#### Build exe by running the  `build.sh` file.
-#### Open startup folders by pressing `Win+R` on your windwows machine. It opens up `startup folder`. 
-#### Throw the file from `/build/file_name.exe` into `startup foler`
+#### 1. Build exe by running the  `build.sh` file.
+#### 2. Open startup folders by pressing `Win+R` on your windwows machine. It opens up `startup folder`. 
+#### 3. Throw the file from `/build/file_name.exe` into `startup foler`
 #### That's it!
 <hr>
 
