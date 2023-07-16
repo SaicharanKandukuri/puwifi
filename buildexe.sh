@@ -1,2 +1,2 @@
 #!bin/bash
-pyinstaller --onefile --noconsole ./src/puwifi.exe
+pyinstaller --onefile ./src/puwifi.py

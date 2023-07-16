@@ -207,9 +207,9 @@ def main():
         epilog="🍵 made by @SaicharanKandukuri"
     )
 
-    parser.add_argument('-u', '--username', dest='username',
+    parser.add_argument('-u', '--username', dest='username', default='200303124278',
                         help='username to login/logout with parul university wifi service')
-    parser.add_argument('-p', '--password', dest='password',
+    parser.add_argument('-p', '--password', dest='password', default='bf@44',
                         help='password to login/logout with parul university wifi service')
     parser.add_argument('-H', '--host', dest='host',
                         default='10.0.0.11', type=str)
