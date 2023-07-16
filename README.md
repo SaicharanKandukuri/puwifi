@@ -60,7 +60,7 @@ puwifi -o -u YOUR_USERNAME -p YOUR_PASSWORD
 <hr>
 
 ## Finally
-This repo is made fully on self-intrest cause iam a student in parul university, wifi here is `great&fast` but a bit tricky
+This repo is made fully on self-interest as I am a student of Parul University, wifi here is `great&fast` but a bit tricky.
 ![RepeatJumpGIF](https://user-images.githubusercontent.com/68287637/146674165-5d586b3c-dfce-41d7-8ebe-54917b27fb91.gif)
 
 so instead of playing dino i made this script by re-enginerring an year old puwifi login website & used some of knowledge to make this script happen
@@ -83,8 +83,11 @@ so instead of playing dino i made this script by re-enginerring an year old puwi
 
 ![PusheenCatGIF](https://user-images.githubusercontent.com/68287637/146673862-cdb4f86e-c55b-470e-aa3f-b98dd362c6fb.gif)
 ###### go watch your videos now
-
-
+## BUILD EXE (Only for windows):
+#### Build exe by running the  `build.sh` file.
+#### Open startup folders by pressing `Win+R` on your windwows machine. It opens up `startup folder`. 
+#### Throw the file from `/build/file_name.exe` into `startup foler`
+#### That's it!
 <hr>
 
 ###### (©️) MIT License @SaicharanKandukuri 
