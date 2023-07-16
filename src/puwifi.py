@@ -47,15 +47,16 @@ log = logging.getLogger("rich")
 
 class WifiUtils:
     """class for wifi utils"""
+
     def __init__(self):
         pass
-    
+
     def pw_request(self,
-                method,
-                username,
-                password,
-                host, port,
-                timeout) -> list:
+                   method,
+                   username,
+                   password,
+                   host, port,
+                   timeout) -> list:
         """request method: sends request to wifi host
 
         Args:
@@ -91,11 +92,11 @@ class WifiUtils:
         body_array = bytearray(body, 'utf-8')
 
         req = requests.post(url,
-                          data=body_array,
-                          headers=headers,
-                          timeout=timeout,
-                          verify=False
-                          )
+                            data=body_array,
+                            headers=headers,
+                            timeout=timeout,
+                            verify=False
+                            )
         return [(req.status_code == 200), req.text, req.status_code]
 
     def login(self,
@@ -143,6 +144,7 @@ class WifiUtils:
 # def get_xml_msg(xml): # for later (●'◡'●)
 #     return Et.parse(xml).getroot()[1]
 
+
 def grey_print(_string):
     """prints outs grey text
 
@@ -150,6 +152,8 @@ def grey_print(_string):
         _string (str)
     """
     print(f"\033[90m{_string}\033[0m")
+
+
 def connection_to(url, timeout=10):
     """checks if connection to url is available"""
     try:
@@ -183,6 +187,7 @@ def keep_alive(username, password, host, port):
 
         time.sleep(5)
 
+
 def exit_handler(_signal, frame):
     """captures keyboard interrupts and kill signals & exits with messesage"""
     log.warning('SIGINT or CTRL-C detected. Exiting gracefully')
@@ -197,54 +202,57 @@ def main():
     signal(SIGINT, exit_handler)
 
     parser = argparse.ArgumentParser(
-        prog='puwifi', 
+        prog='puwifi',
         description='parul university wifi login/logout tool',
         epilog="🍵 made by @SaicharanKandukuri"
-        )
-    
+    )
+
     parser.add_argument('-u', '--username', dest='username',
-                      help='username to login/logout with parul university wifi service')
+                        help='username to login/logout with parul university wifi service')
     parser.add_argument('-p', '--password', dest='password',
-                      help='password to login/logout with parul university wifi service')
+                        help='password to login/logout with parul university wifi service')
     parser.add_argument('-H', '--host', dest='host',
-                      default='10.0.0.11', type=str)
+                        default='10.0.0.11', type=str)
     parser.add_argument('-P', '--port', dest='port',
-                      default='8090', type=str)
+                        default='8090', type=str)
     parser.add_argument('-k', '--keep-alive', action='store_true',
-                      help='keep connecting to wifi when it gets signed out', default=False)
+                        help='keep connecting to wifi when it gets signed out', default=False)
     parser.add_argument('-o', '--logout', action='store_true',
-                      help='logout from wifi', default=False)
+                        help='logout from wifi', default=False)
     parser.add_argument('-l', '--login', action='store_true',
-                      help='login to wifi', default=False)
-    
+                        help='login to wifi', default=False)
+
     args = parser.parse_args()
-    
+
     wu = WifiUtils()
-    
+
     if not sys.argv[1:]:
         print("no arguments passed")
         print(parser.print_help())
-    
+
     if args.login:
         log.info("=> login <=")
         log.info(wu.login(args.username,
-                         args.password,
-                         args.host, args.port,
-                        ))
-        sys.exit(0)
-    
-    if args.logout:
-        log.info("=> logout <=")
-        log.info(wu.logout(args.username,
                           args.password,
                           args.host, args.port,
                           ))
         sys.exit(0)
-    
+
+    if args.logout:
+        log.info("=> logout <=")
+        log.info(wu.logout(args.username,
+                           args.password,
+                           args.host, args.port,
+                           ))
+        sys.exit(0)
+
     if args.keep_alive:
         log.info("=> keep alive <=")
         keep_alive(args.username,
                    args.password,
                    args.host, args.port,
                    )
-    
+
+
+if __name__ == '__main__':
+    main()
