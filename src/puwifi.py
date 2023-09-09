@@ -217,10 +217,11 @@ def main():
     """Entry point
     """
     signal(SIGINT, exit_handler)
+    VERSION="v1.0.9"
 
     parser = argparse.ArgumentParser(
         prog='puwifi', 
-        description='parul university wifi login/logout tool',
+        description=f'puwifi {VERSION}: parul university wifi login/logout tool',
         epilog="🍵 made by @SaicharanKandukuri"
         )
     
@@ -244,8 +245,10 @@ def main():
     wu = WifiUtils()
     
     if not sys.argv[1:]:
-        print("no arguments passed")
-        print(parser.print_help())
+        parser.print_help()
+        logging.warn("no arguments passed")
+        logging.info("Exiting...")
+        sys.exit(0)
     
     if args.login:
         log.info("=> login <=")
