@@ -181,9 +181,9 @@ def keep_alive(username, password, host, port):
     while True:
 
         if connection_to("http://10.0.0.11:8090/"):
-            log.info("connection to router \"available\"")
+            log.info("Connection to router \"available\"")
         else:
-            log.critical("connection to router \"unavailable\"")
+            log.critical("Connection to router \"unavailable\"")
 
         if connection_to("https://google.com"):
             log.info("Connected to the internet")
