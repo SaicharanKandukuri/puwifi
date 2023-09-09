@@ -1,0 +1,33 @@
+name: Publish to pypa
+on:
+    release:
+      types: [created]
+
+# .github/workflows/ci-cd.yml
+jobs:
+    pypi-publish:
+      name: 📦 Upload release to PyPI
+      runs-on: ubuntu-latest
+      environment:
+        name: pypi
+        url: https://pypi.org/p/puwifi
+      permissions:
+        id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      steps:
+      # retrieve your distributions here
+      - name: Install pypa/build
+        run: >-
+            python3 -m
+            pip install
+            build
+            --user   
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python3 -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+      
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
