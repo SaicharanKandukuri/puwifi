@@ -177,6 +177,7 @@ def connection_to(url, timeout=10):
 
 def keep_alive(username, password, host, port):
     """keeps connection alive to wifi host"""
+    wu = WifiUtils()
     while True:
 
         if connection_to("http://10.0.0.11:8090/"):
@@ -190,7 +191,7 @@ def keep_alive(username, password, host, port):
             log.warning("Not connected to the internet")
             log.info("Tying to login back")
             try:
-                log.info(WifiUtils.login(username, password, host, port))
+                log.info(wu.login(username, password, host, port))
             except (requests.ConnectionError,
                     requests.Timeout):
                 log.critical(
