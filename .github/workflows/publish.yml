@@ -21,6 +21,7 @@ jobs:
             pip install
             build
             --user   
+      - uses: actions/checkout@v2
       - name: Build a binary wheel and a source tarball
         run: >-
           python3 -m
