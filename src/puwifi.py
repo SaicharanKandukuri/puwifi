@@ -52,20 +52,24 @@ class WifiUtils:
     
     def pw_request(self,
                 method,
+                mode,
                 username,
                 password,
                 host, port,
-                timeout) -> list:
+                timeout,
+                product=0) -> list:
         """request method: sends request to wifi host
 
         Args:
             method (str): interaction method "login.xml" or "logout.xml". Defaults to "login.xml".
+            mode   (str): A hardcoded mode for auth mode (191 for login, 193 for logout)
             username (str): username assigned by parul university to access wifi
             password (str): password assigned by parul university to access wifi
             host (str): hostname of the parul university wifi hotspot/routers Defaults to "
             port (str): port to send login request. Defaults to "8090".
             timeout (int): request timeout. Defaults to 10.
-
+            product (int, optional): login parameter to set client type (0 for WEB, 1 for IOS, 2 for ANDROID)
+                                     Defaults to 0,
         Returns:
             list
             server_request status[true|false]
@@ -73,9 +77,21 @@ class WifiUtils:
             status_code(web request status code)
         """
         url = "http://"+host+":"+port+"/"+method
-        body = ("mode=191&username=" + username + "&password=" + password +
-                "&a=1630404423764&producttype=0"
-                )
+        logging.info(url)
+        
+        body_arg_passwd     = f"&password={password}" if mode == "191" else ""
+        body_arg_username   = f"&username={username}"
+        body_arg_epoch      = f"&a={int(time.time())}"
+        body_arg_product    = f"&product={product}"
+        
+        body = (
+            f"mode={mode}" 
+            + body_arg_username 
+            + body_arg_passwd 
+            + body_arg_epoch
+            + body_arg_product
+        )
+        
         headers = {
             "Host": "http://" + host + ":" + port + "",
             "Content-Length": str(getsizeof(body)),
@@ -117,7 +133,7 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "login.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.pw_request(method, username, password, host, port, timeout)
+        return self.pw_request(method, mode="191", username=username, password=password, host=host, port=port, timeout=timeout)
 
     def logout(self,
                username,
@@ -137,7 +153,7 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "logout.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.pw_request(method, username, password, host, port, timeout)
+        return self.pw_request(method, mode="193", username=username, password=".none", host=host, port=port, timeout=timeout)
 
 # def get_xml_msg(xml): # for later (●'◡'●)
 #     return Et.parse(xml).getroot()[1]
@@ -189,6 +205,12 @@ def exit_handler(_signal, frame):
     grey_print("frame:"+str(frame))
     sys.exit(0)
 
+def assertNone(vars: list,msg : str, exit_code: int, help_obj: argparse.ArgumentParser):
+    for var in vars:
+        if var == None:
+            logging.error(msg)
+            help_obj.print_help()
+            sys.exit(exit_code)
 
 def main():
     """Entry point
@@ -226,6 +248,7 @@ def main():
     
     if args.login:
         log.info("=> login <=")
+        assertNone( [args.username, args.password], "Login requires extra arguments", 1, parser)
         log.info(wu.login(args.username,
                          args.password,
                          args.host, args.port,
@@ -234,8 +257,8 @@ def main():
     
     if args.logout:
         log.info("=> logout <=")
+        assertNone( [args.username], "Logout requires extra arguments", 1, parser)
         log.info(wu.logout(args.username,
-                          args.password,
                           args.host, args.port,
                           ))
         sys.exit(0)
