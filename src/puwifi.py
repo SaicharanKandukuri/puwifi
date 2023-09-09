@@ -121,7 +121,6 @@ class WifiUtils:
 
     def logout(self,
                username,
-               password,
                host,
                port="8090",
                method="logout.xml",
