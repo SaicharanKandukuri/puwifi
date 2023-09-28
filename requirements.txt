@@ -1,5 +1,0 @@
-requests
-pip
-rich
-argparse
-pyinstaller
