@@ -1,5 +1,6 @@
 import argparse
 import sys
+import re
 from sys import getsizeof
 import logging
 from signal import signal, SIGINT
@@ -53,20 +54,24 @@ class WifiUtils:
 
     def pw_request(self,
                    method,
+                   mode,
                    username,
                    password,
                    host, port,
-                   timeout) -> list:
+                   timeout,
+                   product=0) -> list:
         """request method: sends request to wifi host
 
         Args:
             method (str): interaction method "login.xml" or "logout.xml". Defaults to "login.xml".
+            mode   (str): A hardcoded mode for auth mode (191 for login, 193 for logout)
             username (str): username assigned by parul university to access wifi
             password (str): password assigned by parul university to access wifi
             host (str): hostname of the parul university wifi hotspot/routers Defaults to "
             port (str): port to send login request. Defaults to "8090".
             timeout (int): request timeout. Defaults to 10.
-
+            product (int, optional): login parameter to set client type (0 for WEB, 1 for IOS, 2 for ANDROID)
+                                     Defaults to 0,
         Returns:
             list
             server_request status[true|false]
@@ -74,9 +79,21 @@ class WifiUtils:
             status_code(web request status code)
         """
         url = "http://"+host+":"+port+"/"+method
-        body = ("mode=191&username=" + username + "&password=" + password +
-                "&a=1630404423764&producttype=0"
-                )
+        logging.info(url)
+
+        body_arg_passwd = f"&password={password}" if mode == "191" else ""
+        body_arg_username = f"&username={username}"
+        body_arg_epoch = f"&a={int(time.time())}"
+        body_arg_product = f"&product={product}"
+
+        body = (
+            f"mode={mode}"
+            + body_arg_username
+            + body_arg_passwd
+            + body_arg_epoch
+            + body_arg_product
+        )
+
         headers = {
             "Host": "http://" + host + ":" + port + "",
             "Content-Length": str(getsizeof(body)),
@@ -97,7 +114,14 @@ class WifiUtils:
                             timeout=timeout,
                             verify=False
                             )
-        return [(req.status_code == 200), req.text, req.status_code]
+        pattern = r'(\[CDATA\[(.*?)\]\])'
+        patterns_matched = re.findall(pattern=pattern, string=req.text)
+        response_message = patterns_matched[1][1]
+        # weird '&#39;' thing fix
+        anamoly = "&#39;"
+        if anamoly in response_message:
+            response_message = str(response_message).replace(anamoly, "'")
+        return response_message
 
     def login(self,
               username,
@@ -118,11 +142,10 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "login.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.pw_request(method, username, password, host, port, timeout)
+        return self.pw_request(method, mode="191", username=username, password=password, host=host, port=port, timeout=timeout)
 
     def logout(self,
                username,
-               password,
                host,
                port="8090",
                method="logout.xml",
@@ -139,7 +162,7 @@ class WifiUtils:
             "login.xml" or "logout.xml". Defaults to "logout.xml".
             timeout (int, optional): request timeout. Defaults to 10.
         """
-        return self.pw_request(method, username, password, host, port, timeout)
+        return self.pw_request(method, mode="193", username=username, password=".none", host=host, port=port, timeout=timeout)
 
 # def get_xml_msg(xml): # for later (●'◡'●)
 #     return Et.parse(xml).getroot()[1]
@@ -166,12 +189,13 @@ def connection_to(url, timeout=10):
 
 def keep_alive(username, password, host, port):
     """keeps connection alive to wifi host"""
+    wu = WifiUtils()
     while True:
 
         if connection_to("http://10.0.0.11:8090/"):
-            log.info("connection to router \"available\"")
+            log.info("Connection to router \"available\"")
         else:
-            log.critical("connection to router \"unavailable\"")
+            log.critical("Connection to router \"unavailable\"")
 
         if connection_to("https://google.com"):
             log.info("Connected to the internet")
@@ -179,7 +203,7 @@ def keep_alive(username, password, host, port):
             log.warning("Not connected to the internet")
             log.info("Tying to login back")
             try:
-                log.info(WifiUtils.login(username, password, host, port))
+                log.info(wu.login(username, password, host, port))
             except (requests.ConnectionError,
                     requests.Timeout):
                 log.critical(
@@ -196,20 +220,29 @@ def exit_handler(_signal, frame):
     sys.exit(0)
 
 
+def assertNone(vars: list, msg: str, exit_code: int, help_obj: argparse.ArgumentParser):
+    for var in vars:
+        if var == None:
+            logging.error(msg)
+            help_obj.print_help()
+            sys.exit(exit_code)
+
+
 def main():
     """Entry point
     """
     signal(SIGINT, exit_handler)
+    VERSION = "v1.0.9"
 
     parser = argparse.ArgumentParser(
         prog='puwifi',
-        description='parul university wifi login/logout tool',
+        description=f'puwifi {VERSION}: parul university wifi login/logout tool',
         epilog="🍵 made by @SaicharanKandukuri"
     )
 
-    parser.add_argument('-u', '--username', dest='username', default='200303124278',
+    parser.add_argument('-u', '--username', dest='username',
                         help='username to login/logout with parul university wifi service')
-    parser.add_argument('-p', '--password', dest='password', default='bf@44',
+    parser.add_argument('-p', '--password', dest='password',
                         help='password to login/logout with parul university wifi service')
     parser.add_argument('-H', '--host', dest='host',
                         default='10.0.0.11', type=str)
@@ -227,11 +260,15 @@ def main():
     wu = WifiUtils()
 
     if not sys.argv[1:]:
-        print("no arguments passed")
-        print(parser.print_help())
+        parser.print_help()
+        logging.warn("no arguments passed")
+        logging.info("Exiting...")
+        sys.exit(0)
 
     if args.login:
         log.info("=> login <=")
+        assertNone([args.username, args.password],
+                   "Login requires extra arguments", 1, parser)
         log.info(wu.login(args.username,
                           args.password,
                           args.host, args.port,
@@ -240,8 +277,9 @@ def main():
 
     if args.logout:
         log.info("=> logout <=")
+        assertNone([args.username],
+                   "Logout requires extra arguments", 1, parser)
         log.info(wu.logout(args.username,
-                           args.password,
                            args.host, args.port,
                            ))
         sys.exit(0)
@@ -252,7 +290,3 @@ def main():
                    args.password,
                    args.host, args.port,
                    )
-
-
-if __name__ == '__main__':
-    main()
