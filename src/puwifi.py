@@ -243,7 +243,7 @@ def assert_none(vars: list, msg: str, exit_code: int, help_obj: argparse.Argumen
 def main():
     """Main entry point."""
     signal(SIGINT, exit_handler)
-    version = "v1.0.9"
+    version = "v1.1.0"
 
     parser = argparse.ArgumentParser(
         prog='puwifi',
