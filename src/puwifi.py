@@ -194,8 +194,11 @@ def connection_to(url, timeout=10):
 def keep_alive(username, password, host, port):
     """keeps connection alive to wifi host"""
     wifi_utils = WifiUtils()
+    login_count = 0
+    
     while True:
-
+        if login_count >= 3:
+            log.critical("Logged in 3 times but no internet, Try re-connecting to wifi")
         if connection_to("http://10.0.0.11:8090/"):
             log.info("Connection to router: \"Available\".")
         else:
@@ -203,11 +206,13 @@ def keep_alive(username, password, host, port):
 
         if connection_to("https://google.com"):
             log.info("Connected to the internet.")
+            login_count=0
         else:
             log.warning("Not connected to the internet")
             log.info("Trying to log back in.")
             try:
                 log.info(wifi_utils.login(username, password, host, port))
+                login_count+=1
             except (requests.ConnectionError,
                     requests.Timeout):
                 log.critical(
