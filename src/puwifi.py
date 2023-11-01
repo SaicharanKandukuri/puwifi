@@ -138,7 +138,7 @@ class WifiUtils:
             username (str): username assigned by parul university to access wifi
             password (str): password assigned by parul university to access wifi
             host (str): hostname of the parul university wifi hotspot/routers
-            Defaults to "10.0.0.11"
+            Defaults to "10.0.0.12"
             port (str, optional): port to send login request. Defaults to "8090".
             method (str, optional): interaction method
             "login.xml" or "logout.xml". Defaults to "login.xml".
@@ -159,7 +159,7 @@ class WifiUtils:
             username (str): username assigned by parul university to access wifi
             password (str): password assigned by parul university to access wifi
             host (str): hostname of the parul university wifi hotspot/routers
-            Defaults to "10.0.0.11"
+            Defaults to "10.0.0.12"
             port (str, optional): port to send login request. Defaults to "8090".
             method (str, optional): interaction method
             "login.xml" or "logout.xml". Defaults to "logout.xml".
@@ -199,7 +199,7 @@ def keep_alive(username, password, host, port):
     while True:
         if login_count >= 3:
             log.critical("Logged in 3 times but no internet, Try re-connecting to wifi")
-        if connection_to("http://10.0.0.11:8090/"):
+        if connection_to("http://10.0.0.12:8090/"):
             log.info("Connection to router: \"Available\".")
         else:
             log.critical("Connection to router: \"Unavailable\".")
@@ -261,7 +261,7 @@ def main():
     parser.add_argument('-p', '--password', dest='password',
                         help='password to login/logout with parul university wifi service')
     parser.add_argument('-H', '--host', dest='host',
-                        default='10.0.0.11', type=str)
+                        default='10.0.0.12', type=str)
     parser.add_argument('-P', '--port', dest='port',
                         default='8090', type=str)
     parser.add_argument('-k', '--keep-alive', action='store_true',
