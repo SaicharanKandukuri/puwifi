@@ -199,7 +199,7 @@ def keep_alive(username, password, host, port):
     while True:
         if login_count >= 3:
             log.critical("Logged in 3 times but no internet, Try re-connecting to wifi")
-        if connection_to("http://10.0.0.11:8090/"):
+        if connection_to(f"http://{host}:{port}"):
             log.info("Connection to router: \"Available\".")
         else:
             log.critical("Connection to router: \"Unavailable\".")
