@@ -49,6 +49,8 @@ log = logging.getLogger("rich")
 class WifiUtils:
     """class for wifi utils"""
 
+    method_login = method_logout = "httpclient.html"
+
     def __init__(self):
         pass
 
@@ -78,7 +80,7 @@ class WifiUtils:
             response(xml data returned form server)
             status_code(web request status code)
         """
-        url = "http://"+host+":"+port+"/"+method
+        url = f"http://{host}:{port}/{method}"
         logging.info(url)
 
         body_arg_passwd = f"&password={password}" if mode == "191" else ""
@@ -130,7 +132,7 @@ class WifiUtils:
               password,
               host,
               port="8090",
-              method="login.xml",
+              method=method_login,
               timeout=10) -> list:
         """login: uses request method to send login web request with credentials to wifi host
 
@@ -151,7 +153,7 @@ class WifiUtils:
                username,
                host,
                port="8090",
-               method="logout.xml",
+               method=method_logout,
                timeout=10) -> list:
         """logout: uses request method to send logout web request with credentials to wifi host
 
